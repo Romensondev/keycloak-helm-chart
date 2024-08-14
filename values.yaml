@@ -1,0 +1,37 @@
+replicaCount: 1
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  hostname: auth.your_domain.example
+  annotations:
+    cert-manager.io/issuer: "issuer_name"
+    nginx.ingress.kubernetes.io/proxy-real-ip-cidr: "0.0.0.0/0"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+  extraTls:
+    - hosts:
+      - auth.your_domain.example
+      secretName: [your_certificate_name]
+
+production: true
+proxy: edge
+auth:
+  adminUser: user
+  adminPassword: "password"
+
+logging:
+  output: json
+  level: INFO
+
+extraEnvVars:
+  - name: TZ
+    value: "Your/Timezone"
+
+postgresql:
+  enabled: false
+externalDatabase:
+  host: "db_host"
+  
+  user: [db_user]
+  password: "db_password"
+  database: db_name
